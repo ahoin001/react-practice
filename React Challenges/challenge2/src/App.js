@@ -7,7 +7,8 @@ import CharComponent from './components/charComponent';
 class App extends React.Component {
   state = {
 
-    input: "Placeholder"
+    input: "",
+    arrayOfInput : []
 
   }
 
@@ -15,16 +16,46 @@ class App extends React.Component {
 
     // 1. Make change to copy 
     let userInput = event.target.value;
+    let arrayOfInput = userInput.split('');
 
     // 2. Update State
-    this.setState({ input: userInput })
+    this.setState({ 
+      input: userInput ,
+      arrayOfInput: arrayOfInput
+    })
 
   }
-  render() {
 
-    // 1. Get the characters of the current input
-    let arrayOfInput = [...this.state.input.split('')]
-    console.log(arrayOfInput);
+  deleteClickHandler = (indexOfWhatToDelete) => {
+
+    // 1. Copy State Variables
+        
+        // Will have array of both input, and the characters in the input
+        let inputAfterDeleteClick = this.state.input;
+        inputAfterDeleteClick = inputAfterDeleteClick.split('');
+
+        let newStateList = [...this.state.arrayOfInput];
+
+    // 2. Delete the element at the index provided in both the input, and listed components
+        inputAfterDeleteClick.splice(indexOfWhatToDelete,1);
+        newStateList.splice(indexOfWhatToDelete,1);
+
+    // 3. Turn the input back into a string so input doesn't turn into an array
+        let updatedInputString = inputAfterDeleteClick.join('');
+        console.log(inputAfterDeleteClick);
+
+    // 4. Update State, rerender component
+        this.setState({
+          input: updatedInputString,
+          arrayOfInput : newStateList
+        })
+
+    // 4. 
+    
+
+  }
+
+  render() {
 
     return (
 
@@ -38,19 +69,20 @@ class App extends React.Component {
 
         <ValidationComponent inputLength={this.state.input.length} />
 
-        {arrayOfInput.map((char,index) => {
+        {this.state.arrayOfInput.map((char, index) => {
 
-          return <CharComponent aChar={char}/>
+          return <CharComponent 
+                  aChar = {char} 
+                  // Deletes the clicked component then rerenders component with updated list
+                  deleteClick = {() => this.deleteClickHandler(index)}
+                  key = {index} 
+                  />
 
         })}
 
       </div>
 
-
-
-
     );
-
 
   }
 }

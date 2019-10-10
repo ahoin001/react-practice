@@ -12,7 +12,7 @@ const charComponent = (props) => {
 
         return ( 
 
-            <div style={charStyles}>
+            <div style={charStyles} onClick={props.deleteClick}>
 
 
                 <p> {props.aChar}</p>                

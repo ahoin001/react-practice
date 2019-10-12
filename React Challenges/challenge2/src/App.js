@@ -57,6 +57,20 @@ class App extends React.Component {
 
   render() {
 
+    // TRY TO KEEP LOGIC IN RENDER AND ONLY RETURN FINISHED COMPONENTS
+
+    // Checks input in state and creates array from each character
+    const charList =  this.state.input.split('').map((char, index) => {
+
+      return <CharComponent 
+              aChar = {char} 
+              // Deletes the clicked component then rerenders component with updated list
+              deleteClick = {() => this.deleteClickHandler(index)}
+              key = {index} 
+              />
+
+    })
+
     return (
 
       <div>
@@ -68,8 +82,10 @@ class App extends React.Component {
         />
 
         <ValidationComponent inputLength={this.state.input.length} />
+        
+        {charList}
 
-        {this.state.arrayOfInput.map((char, index) => {
+        {/* {this.state.arrayOfInput.map((char, index) => {
 
           return <CharComponent 
                   aChar = {char} 
@@ -78,7 +94,7 @@ class App extends React.Component {
                   key = {index} 
                   />
 
-        })}
+        })} */}
 
       </div>
 
